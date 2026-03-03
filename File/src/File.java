@@ -177,14 +177,14 @@ public class File {
     }
 
     public File(String name, int size, boolean writable) {
-        this.name = name;
+        this.name = this.correctionName(name);
         this.size = size;
         this.writable = writable;
         this.creationTime = new Date();
     }
 
     public File(String name) {
-        this.name = name;
+        this.name = this.correctionName(name);
         this.size = 0;
         this.writable = true;
         this.creationTime = new Date();
