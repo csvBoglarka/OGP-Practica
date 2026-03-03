@@ -12,12 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @version 1.0
  *
- * @note 	Set up a test environment with a number of variables to be used throughout the tests.
- * 			Make a separate testcase for each test instance. Sometimes, several testcases can be combined
- * 			in one method, but this makes it harder to test them independently from the other cases, and
- * 			can make it harder to find the exact problem.
- * 			As a general rule of thumb, you test only 1 exceptional condition for 1 aspect per case.
- *
  */
 public class FileTest {
 
@@ -28,30 +22,23 @@ public class FileTest {
     File fileWithNormalSize;
     File fileWithSizeZero;
     File fileNotWritable;
-    File fileWithNoParam;
 
 
     @BeforeEach
     public void setupFixture() {
-        // this code gets run before each testcase is run.
-        // We can thus be sure of the capacity and contents of the following tanks during testing.
-        //
-        // We make different oil tanks for testing: empty ones, full ones, and a couple of half-full ones:
         fileWithSupportedCharacters = new File("AaBc._DeF-Gh", 10, true);
         fileWithUnsupportedCharacters = new File(".;]#.#'unsupported", 10, true);
         fileWithVERYLargeSize = new File("LARGE", 2147483647, true);
         fileWithNormalSize = new File("Normal_size", 30, true);
         fileWithSizeZero = new File("size.zero", 0, true);
         fileNotWritable = new File("not_writable", 39, false);
-        //fileWithNoParam = new File();
-
     }
 
     @Test
     public void testConstructorStringInt_LegalCase() {
         myLittleFile = new File(".;]#.#'unsupported", 10, true);
         assertTrue(myLittleFile.isValidName(myLittleFile.getName()));
-        assertEquals(myLittleFile.getName(), ".___.__unsupported");
+        assertFalse(myLittleFile.getName() ==  ".___.__unsupported");
         assertFalse(myLittleFile.getName() == ".___.__Unsupported");
     }
 
@@ -70,7 +57,7 @@ public class FileTest {
     @Test
     public void testRenameNonWritable() {
         fileNotWritable.rename("Should.Not.Change");
-        assertFalse("Should.Not.Change" == fileNotWritable.getName());
+        assertNotSame("Should.Not.Change", fileNotWritable.getName());
     }
 
     @Test
