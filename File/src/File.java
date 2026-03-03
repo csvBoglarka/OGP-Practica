@@ -38,7 +38,7 @@ public class File {
      *         |            name.matches("[A-Za-z0-9._-]+") && name.length() > 1
      */
     @Model
-    private boolean isValidName(String name) {
+    public boolean isValidName(String name) {
 
         return name.matches("[A-Za-z0-9._-]+") && name.length() > 1;
     }
