@@ -53,13 +53,6 @@ public class FileTest {
         assertTrue(fileWithSupportedCharacters.isValidName(fileWithSupportedCharacters.getName()));
     }
 
-
-    @Test
-    public void testRenameNonWritable() {
-        fileNotWritable.rename("Should.Not.Change");
-        assertNotSame("Should.Not.Change", fileNotWritable.getName());
-    }
-
     @Test
     public void testRenameException() {
         try {
@@ -97,17 +90,21 @@ public class FileTest {
     }
 
     @Test
-    public void testEnlargeNonWritable() {
-        fileNotWritable.enlarge(10);
-        assertNotEquals(49, fileNotWritable.getSize());
-        print(fileNotWritable.getSize());
+    public void testEnlargeException() {
+        try {
+            fileNotWritable.enlarge(10);
+        }catch(NoWritingPermission e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
     }
 
     @Test
-    public void testShortenNonWritable() {
-        fileNotWritable.shorten(10);
-        assertNotEquals(29, fileNotWritable.getSize());
-        print(fileNotWritable.getSize());
+    public void testShortenException() {
+        try {
+            fileNotWritable.shorten(10);
+        }catch(NoWritingPermission e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
     }
 }
 

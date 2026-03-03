@@ -89,7 +89,7 @@ public class File {
      */
     public void rename(String name) {
         if (writable == false) {
-            throw new NoWritingPermission("File must be writable to be able to rename it.");
+            throw new NoWritingPermission("File must be writable in order to rename it.");
         }
         else{ if ((!isValidName(name)) && name.length() > 1) {
             name = correctionName(name);
@@ -125,12 +125,18 @@ public class File {
      *      | this.size + amount <= max_filesize
      * @pre File must have permission to be writable.
      *      | writable == true
+     * @exception NoWritingPermission
+     *            The file is not writable and therefore cannot be enlarged.
+     *            | (writable == false)
      * @post The new filesize is equal to the old filesize incremented with the given amount of bytes.
      */
     public void enlarge(int amount) {
-        if (amount > 0 && (this.size + amount) <= max_filesize && writable == true) {
-            this.size += amount;
+        if (writable == false) {
+            throw new NoWritingPermission("File must be writable in order to enlarge it.");
         }
+        else{if (amount > 0 && (this.size + amount) <= max_filesize) {
+            this.size += amount;
+        }}
     }
 
     /**
@@ -145,12 +151,20 @@ public class File {
      *      | this.size - amount >= 0
      * @pre File must have permission to be writable.
      *      | writable == true
+     * @exception NoWritingPermission
+     *            The file is not writable and therefore cannot be shortened.
+     *            | (writable == false)
      * @post The new filesize is equal to the old filesize decremented with the given amount of bytes.
      *      | this.size -= amount
      */
     public void shorten(int amount) {
-        if (amount > 0 && this.size - amount >= 0 && writable == true) {
-            this.size -= amount;
+        if (writable == false){
+            throw new NoWritingPermission("File must be writable in order to shorten it.");
+        }
+        else {
+            if (amount > 0 && this.size - amount >= 0) {
+                this.size -= amount;
+            }
         }
     }
 
