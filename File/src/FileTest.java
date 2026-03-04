@@ -30,7 +30,7 @@ public class FileTest {
         fileWithUnsupportedCharacters = new File(".;]#.#'unsupported", 10, true);
         fileWithVERYLargeSize = new File("LARGE", 2147483647, true);
         fileWithNormalSize = new File("Normal_size", 30, true);
-        fileWithSizeZero = new File("size.zero", 0, true);
+        fileWithSizeZero = new File("size.zero");
         fileNotWritable = new File("not_writable", 39, false);
     }
 
@@ -106,5 +106,42 @@ public class FileTest {
             System.out.println("Exception caught: " + e.getMessage());
         }
     }
-}
+    
+    @Test
+    public void testConstructorLang() {
+        assertEquals("AaBc._DeF-Gh", fileWithSupportedCharacters.getName());
+        assertEquals(10, fileWithSupportedCharacters.getSize());
+        assertTrue(fileWithSupportedCharacters.isWritable());
+        assertNotNull(fileWithSupportedCharacters.getCreationTime());
+    }
 
+    @Test
+    public void testConstructorKort() {
+        assertEquals("size.zero", fileWithSizeZero.getName());
+        assertEquals(0, fileWithSizeZero.getSize());
+        assertTrue(fileWithSizeZero.isWritable());
+        assertNotNull(fileWithSizeZeros.getCreationTime());
+    }
+
+    @Test
+    public void testIsWritable() {
+        assertTrue(fileWithSupportedCharacters.isWritable());
+    }
+
+    @Test
+    public void testIsWritable() {
+        assertFalse(fileNotWritable.isWritable());
+    }
+
+    @Test
+    public void testSetWritable(){
+        fileWithSupportedCharacters(false);
+        assertFalse(fileWithSupportedCharacters.isWritable());
+    }
+
+    @Test
+    public void testSetWritable(){
+        fileNotWritable(true);
+        assertTrue(fileNotWritable.isWritable());
+    } 
+}
